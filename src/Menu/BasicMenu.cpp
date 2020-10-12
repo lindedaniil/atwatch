@@ -36,7 +36,6 @@ void BasicMenu::Next()
     point = 0;
 }
 
-
 String *BasicMenu::GetData()
 {
   return data;

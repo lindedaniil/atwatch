@@ -1,15 +1,15 @@
 #include "App/SettingMenu/SoundSettings.h"
 #include "Global.h"
 
-void SoundSettings::OnStart() 
+void SoundSettings::OnStart()
 {
   display.clearDisplay();
-  menuBuilder.DrawSelection(size, data, optionsSize, options, point, pointsOptions);
+  selectionMenu->Draw();
   display.display();
 }
 void SoundSettings::OnExit() {}
 void SoundSettings::Update() {}
-void SoundSettings::OnKeyDown(BUT key) 
+void SoundSettings::OnKeyDown(BUT key)
 {
   display.clearDisplay();
   switch (key)
@@ -18,13 +18,12 @@ void SoundSettings::OnKeyDown(BUT key)
     menu = Apps::MainMenu;
     break;
   case MIDLE:
-    menuBuilder.IncPoint(size, point);
-    menuBuilder.DrawSelection(size, data, optionsSize, options, point, pointsOptions);
-  //  menuBuilder.IncAndDrawBasic(size, data, point);
+    selectionMenu->Next();
+    selectionMenu->Draw();
     break;
   case DOWN:
-    menuBuilder.IncPoint(optionsSize[point], pointsOptions[point]);
-    menuBuilder.DrawSelection(size, data, optionsSize, options, point, pointsOptions);
+    selectionMenu->ElementNext();
+    selectionMenu->Draw();
     break;
   }
   display.display();

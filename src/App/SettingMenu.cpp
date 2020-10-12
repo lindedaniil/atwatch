@@ -1,15 +1,15 @@
 #include "App/SettingMenu.h"
 #include "Global.h"
 
-void SettingMenu::OnStart() 
+void SettingMenu::OnStart()
 {
   display.clearDisplay();
-  menuBuilder.DrawBasic(size, data, point);
+  basicMenu->Draw();
   display.display();
 }
 void SettingMenu::OnExit() {}
 void SettingMenu::Update() {}
-void SettingMenu::OnKeyDown(BUT key) 
+void SettingMenu::OnKeyDown(BUT key)
 {
   switch (key)
   {
@@ -18,12 +18,13 @@ void SettingMenu::OnKeyDown(BUT key)
     break;
   case MIDLE:
     display.clearDisplay();
-    menuBuilder.IncPoint(size, point);
-    menuBuilder.DrawBasic(size, data, point);
+    basicMenu->Next();
+    basicMenu->Draw();
     display.display();
     break;
   case DOWN:
-    if(point == 0) menu = Apps::SoundSettings;
+    if (basicMenu->GetPoint() == 0)
+      menu = Apps::SoundSettings;
     break;
   }
 }

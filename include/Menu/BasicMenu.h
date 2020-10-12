@@ -13,6 +13,7 @@ public:
   byte GetSize();
   String *GetData();
   byte GetPoint();
+
 private:
   byte size;
   String *data;
