@@ -20,20 +20,23 @@
 #include "App/SettingMenu.h"
 /*Apps/SettinMenu*/
 #include "App/SettingMenu/SoundSettings.h"
+#include "App/SettingMenu/ScreenSettings.h"
+/*Test*/
+#include "Tests/tests.h"
 
 /*Create Objects*/
 #ifdef I2CVer
-  #ifdef SH1106
-    Adafruit_SH1106 display(OLED_RESET);
-  #else
-    Adafruit_SSD1306 display(OLED_RESET);
-  #endif
+#ifdef SH1106
+Adafruit_SH1106 display(OLED_RESET);
 #else
-  #ifdef SH1106
-    Adafruit_SH1106 display(OLED_DC, OLED_RESET, OLED_CS);
-  #else
-    Adafruit_SSD1306 display(OLED_DC, OLED_RESET, OLED_CS);
-  #endif
+Adafruit_SSD1306 display(OLED_RESET);
+#endif
+#else
+#ifdef SH1106
+Adafruit_SH1106 display(OLED_DC, OLED_RESET, OLED_CS);
+#else
+Adafruit_SSD1306 display(OLED_DC, OLED_RESET, OLED_CS);
+#endif
 #endif
 
 DS1337 RTC;
@@ -56,9 +59,10 @@ ClockMenu clockMenu;
 StopWatch stopWatch;
 SettingMenu settingMenu;
 SoundSettings soundSettings;
+ScreenSettings screenSettings;
 
-Application **allApp = new Application*[ApplicationBufferSize];
-Application* curApp;
+Application **allApp = new Application *[ApplicationBufferSize];
+Application *curApp;
 
 /*Variables*/
 byte menu;
@@ -83,17 +87,18 @@ void setup()
   allApp[Apps::StopWatch] = &stopWatch;
   allApp[Apps::SettingMenu] = &settingMenu;
   allApp[Apps::SoundSettings] = &soundSettings;
+  allApp[Apps::ScreenSettings] = &screenSettings;
 
   RTC.start();
   lis.begin(0x19);
   radio.begin();
 
-  #ifdef SH1106
-    display.begin(SH1106_SWITCHCAPVCC);
-  #else
-    display.begin(SSD1306_SWITCHCAPVCC);
-  #endif
-  
+#ifdef SH1106
+  display.begin(SH1106_SWITCHCAPVCC);
+#else
+  display.begin(SSD1306_SWITCHCAPVCC);
+#endif
+
   batteryMonitor.reset();
   batteryMonitor.quickStart();
   particleSensor.begin(Wire, I2C_SPEED_FAST);
@@ -112,11 +117,9 @@ void setup()
   digitalWrite(Motor, LOW);
   digitalWrite(v18, LOW);
 
-  /*Disable Modules*/
-  bmp.sleep();
-  lis.setDataRate(LIS3DH_DATARATE_POWERDOWN);
-  radio.powerDown();
-  ADCSRA = 0;
+  run_tests();
+
+  DisableModules();
 }
 
 void loop()
@@ -136,9 +139,7 @@ void loop()
   {
     AppManager();
     Buttons();
-   // display.clearDisplay();
     curApp->Update();
-  //  display.display();
   }
   SleepAnimation();
 }
@@ -211,6 +212,8 @@ void DisableModules()
   lis.setDataRate(LIS3DH_DATARATE_POWERDOWN);
   particleSensor.shutDown();
   bmp.sleep();
+  radio.powerDown();
+  ADCSRA = 0;
 #ifdef SH1106
   display.SH1106_command(SH1106_DISPLAYOFF);
 #else
@@ -220,7 +223,6 @@ void DisableModules()
   noTone(BuzzerPin);
   pinMode(ChardgePin, INPUT);
   disablePower(POWER_ALL);
-
 }
 void EnableModules()
 {
@@ -239,7 +241,7 @@ void EnableModules()
 
 void SleepAnimation()
 {
-  for (byte i = 0; i <= 32; i ++)
+  for (byte i = 0; i <= 32; i++)
   {
     tone(BuzzerPin, 1500 + i * 100);
     display.drawLine(0, i, 128, i, 1);
@@ -257,4 +259,3 @@ void SleepAnimation()
 }
 
 void wakeUp() {}
-

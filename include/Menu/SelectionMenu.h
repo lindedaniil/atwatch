@@ -13,6 +13,7 @@ public:
   void Next();
   void ElementNext();
   byte GetSize();
+  SelectionMenuElement* GetCurElement();
   SelectionMenuElement **GetMenuElements();
   byte GetPoint();
 

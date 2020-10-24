@@ -52,7 +52,10 @@ byte SelectionMenu::GetPoint()
 {
   return point;
 }
-
+SelectionMenuElement *SelectionMenu::GetCurElement()
+{
+  return menuElemets[point];
+}
 SelectionMenuElement **SelectionMenu::GetMenuElements()
 {
   return menuElemets;

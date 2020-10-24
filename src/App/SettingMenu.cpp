@@ -23,8 +23,15 @@ void SettingMenu::OnKeyDown(BUT key)
     display.display();
     break;
   case DOWN:
-    if (basicMenu->GetPoint() == 0)
+    switch (basicMenu->GetPoint())
+    {
+    case 0:
       menu = Apps::SoundSettings;
+      break;
+    case 1:
+      menu = Apps::ScreenSettings;
+      break;
+    }
     break;
   }
 }

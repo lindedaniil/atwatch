@@ -13,6 +13,7 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_LIS3DH.h>
 #include <Adafruit_BMP280.h>
+#include "GyverButton.h"
 
 #define ApplicationBufferSize 20
 
@@ -36,7 +37,8 @@ namespace Apps
 		ClockMenu,
 		StopWatch,
 		SettingMenu,
-		SoundSettings
+		SoundSettings,
+		ScreenSettings
 	};
 }
 enum BUT

@@ -15,5 +15,8 @@ extern unsigned long CurTime;
 extern Adafruit_LIS3DH lis;
 extern Adafruit_BMP280 bmp;
 extern RF24 radio;
+extern GButton butt1;
+extern GButton butt2;
+extern GButton butt3;
 
 #endif
