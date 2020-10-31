@@ -28,7 +28,7 @@
   
 	![Diagram1](https://user-images.githubusercontent.com/55754551/97785046-cd285300-1bb3-11eb-8cb6-e7b8b7948353.png)
 	
-	3.2) Component diagram:
+	3.2) Container diagram:
   
   ![Diagram2](https://user-images.githubusercontent.com/55754551/97785109-1b3d5680-1bb4-11eb-939d-25929951c273.png)
   
