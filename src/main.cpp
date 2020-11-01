@@ -4,6 +4,7 @@
 //#include "config.h"
 #include "Images.h"
 #include "Global.h"
+#include "Buttons.h"
 #include "PAdafruitDisplay.h"
 #include <DS1337.h>
 #include "MAX17043.h"
@@ -11,6 +12,7 @@
 #include "GyverButton.h"
 #include "RF24.h"
 /*Apps*/
+#include "App/ApplicationManager.h"
 #include "App/Application.h"
 #include "App/MainClock.h"
 #include "App/MainMenu.h"
@@ -46,31 +48,10 @@ Adafruit_LIS3DH lis;
 Adafruit_BMP280 bmp;
 RF24 radio(3, 4);
 
-/*Buttons*/
-GButton butt1(b1, LOW_PULL, NORM_OPEN);
-GButton butt2(b2, LOW_PULL, NORM_OPEN);
-GButton butt3(b3, LOW_PULL, NORM_OPEN);
-
-/*Apps*/
-MainClock mainClock;
-MainMenu mainMenu;
-TimeSetting timeSetting;
-ClockMenu clockMenu;
-StopWatch stopWatch;
-SettingMenu settingMenu;
-SoundSettings soundSettings;
-ScreenSettings screenSettings;
-
-Application **allApp = new Application *[ApplicationBufferSize];
-Application *curApp;
-
-/*Variables*/
-byte menu;
-unsigned long CurTime;
-byte lastMenuState;
+Buttons buttons;
+ApplicationManager applicationManager;
 
 void AppManager();
-void Buttons();
 void DisableModules();
 void EnableModules();
 void SleepAnimation();
@@ -79,16 +60,6 @@ void wakeUp();
 void setup()
 {
   Serial.begin(9600);
-  /*add Apps*/
-  allApp[Apps::MainClock] = &mainClock;
-  allApp[Apps::MainMenu] = &mainMenu;
-  allApp[Apps::TimeSetting] = &timeSetting;
-  allApp[Apps::ClockMenu] = &clockMenu;
-  allApp[Apps::StopWatch] = &stopWatch;
-  allApp[Apps::SettingMenu] = &settingMenu;
-  allApp[Apps::SoundSettings] = &soundSettings;
-  allApp[Apps::ScreenSettings] = &screenSettings;
-
   RTC.start();
   lis.begin(0x19);
   radio.begin();
@@ -117,9 +88,7 @@ void setup()
   digitalWrite(Motor, LOW);
   digitalWrite(v18, LOW);
 
-  run_tests();
-
-  DisableModules();
+  //run_tests();
 }
 
 void loop()
@@ -127,84 +96,19 @@ void loop()
   display.clearDisplay();
   display.display();
   DisableModules();
-  lastMenuState = menu = Apps::MainClock;
-  attachInterrupt(2, wakeUp, HIGH); //2
+  applicationManager.SetMenu(Apps::MainClock);
+  attachInterrupt(2, wakeUp, HIGH);
   LowPower.powerDown(SLEEP_FOREVER, ADC_OFF, BOD_OFF);
-  detachInterrupt(2); //2
+  detachInterrupt(2);
   EnableModules();
 
-  CurTime = millis() + TimeUp;
-
-  while (millis() < CurTime)
+  applicationManager.UpdateTime();
+  while (applicationManager.IsActive())
   {
-    AppManager();
-    Buttons();
-    curApp->Update();
+    buttons.tick();
+    applicationManager.GetCurApp()->Update();
   }
   SleepAnimation();
-}
-void AppManager()
-{
-  if (lastMenuState != menu)
-  {
-    allApp[lastMenuState]->OnExit();
-    allApp[menu]->OnStart();
-  }
-  curApp = allApp[menu];
-  lastMenuState = menu;
-}
-
-void Buttons()
-{
-  butt1.tick();
-  butt2.tick();
-  butt3.tick();
-  bool resetTimer = false;
-  if (butt1.isClick())
-  {
-    digitalWrite(Motor, HIGH);
-    delay(100);
-    digitalWrite(Motor, LOW);
-    tone(BuzzerPin, 2000, 200);
-    curApp->OnKeyDown(BUT::DOWN);
-    resetTimer = true;
-  }
-  if (butt2.isClick())
-  {
-    tone(BuzzerPin, 4000, 200);
-    curApp->OnKeyDown(BUT::MIDLE);
-    resetTimer = true;
-  }
-  if (butt3.isClick())
-  {
-    tone(BuzzerPin, 1000, 200);
-    curApp->OnKeyDown(BUT::UP);
-    resetTimer = true;
-  }
-
-  if (butt1.isStep())
-  {
-    tone(BuzzerPin, 2000, 200);
-    curApp->OnKey(BUT::DOWN);
-    resetTimer = true;
-  }
-  if (butt2.isStep())
-  {
-    tone(BuzzerPin, 4000, 200);
-    curApp->OnKey(BUT::MIDLE);
-    resetTimer = true;
-  }
-  if (butt3.isStep())
-  {
-    tone(BuzzerPin, 1000, 200);
-    curApp->OnKey(BUT::UP);
-    resetTimer = true;
-  }
-
-  if (resetTimer)
-  {
-    CurTime = millis() + TimeUp;
-  }
 }
 
 void DisableModules()

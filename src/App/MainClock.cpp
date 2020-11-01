@@ -2,6 +2,7 @@
 #include "App/MainClock.h"
 #include "Arduino.h"
 #include "Images.h"
+#include "App/ApplicationManager.h"
 
 void MainClock::OnStart() {}
 void MainClock::OnExit() {}
@@ -43,7 +44,8 @@ void MainClock::OnKeyDown(BUT keyNum)
   switch (keyNum)
   {
     case UP:
-      menu = Apps::MainMenu;
+    applicationManager.SetMenu(Apps::MainMenu);
+     // menu = Apps::MainMenu;
       break;
   }
 }

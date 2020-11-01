@@ -1,11 +1,12 @@
 #include "App/StopWatch.h"
+#include "App/ApplicationManager.h"
 #include "Global.h"
 
 void StopWatch::OnStart() {}
 void StopWatch::OnExit() {}
 void StopWatch::Update() 
 {
-  CurTime = millis() + TimeUp;
+  applicationManager.UpdateTime();
   display.clearDisplay();
   display.setTextSize(2);
   display.setCursor(0, 0);
@@ -39,7 +40,7 @@ void StopWatch::OnKeyDown(BUT key)
   {
   case UP:
     pause = false;
-    menu = Apps::ClockMenu;
+    applicationManager.SetMenu(Apps::ClockMenu);
     break;
   case MIDLE:
     pause = !pause;

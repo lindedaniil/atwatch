@@ -1,5 +1,6 @@
 #include "App/TimeSetting.h"
 #include "Arduino.h"
+#include "App/ApplicationManager.h"
 
 void TimeSetting::OnStart() 
 {
@@ -11,7 +12,7 @@ void TimeSetting::OnKeyUp(BUT key) {}
 void TimeSetting::Update()
 {
   display.clearDisplay();
-  CurTime = millis() + TimeUp;
+  applicationManager.UpdateTime();
   display.setTextSize(3);
   display.setCursor(0, 0);
   display.setFont();
@@ -58,7 +59,7 @@ void TimeSetting::Update()
     RTC.writeTime();
     delay(1);
     count = 0;
-    menu = Apps::MainClock;
+    applicationManager.SetMenu(Apps::MainClock);
     break;
   }
   display.display();

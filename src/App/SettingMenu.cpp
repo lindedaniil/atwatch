@@ -1,5 +1,6 @@
 #include "App/SettingMenu.h"
 #include "Global.h"
+#include "App/ApplicationManager.h"
 
 void SettingMenu::OnStart()
 {
@@ -14,7 +15,7 @@ void SettingMenu::OnKeyDown(BUT key)
   switch (key)
   {
   case UP:
-    menu = Apps::MainMenu;
+    applicationManager.SetMenu(Apps::MainMenu);
     break;
   case MIDLE:
     display.clearDisplay();
@@ -26,10 +27,10 @@ void SettingMenu::OnKeyDown(BUT key)
     switch (basicMenu->GetPoint())
     {
     case 0:
-      menu = Apps::SoundSettings;
+      applicationManager.SetMenu(Apps::SoundSettings);
       break;
     case 1:
-      menu = Apps::ScreenSettings;
+      applicationManager.SetMenu(Apps::ScreenSettings);
       break;
     }
     break;

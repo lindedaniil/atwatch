@@ -6,31 +6,31 @@
 
 void test_buttons_1_press()
 {
-  butt1.tick();
+  buttons.GetB1()->tick();
   digitalWrite(b1, HIGH);
-  butt1.tick();
+  buttons.GetB1()->tick();
   delay(150);
-  butt1.tick();
-  sput_fail_unless(butt1.isPress(), "Button 1 click");
+  buttons.GetB1()->tick();
+  sput_fail_unless(buttons.GetB1()->isPress(), "Button 1 click");
 }
 
 void test_buttons_2_press()
 {
-  butt2.tick();
+  buttons.GetB2()->tick();
   digitalWrite(b2, HIGH);
-  butt2.tick();
+  buttons.GetB2()->tick();
   delay(150);
-  butt2.tick();
-  sput_fail_unless(butt2.isPress(), "Button 2 click");
+  buttons.GetB2()->tick();
+  sput_fail_unless(buttons.GetB2()->isPress(), "Button 2 click");
 }
 void test_buttons_3_press()
 {
-  butt3.tick();
+  buttons.GetB3()->tick();
   digitalWrite(b3, HIGH);
-  butt3.tick();
+  buttons.GetB3()->tick();
   delay(150);
-  butt3.tick();
-  sput_fail_unless(butt3.isPress(), "Button 3 click");
+  buttons.GetB3()->tick();
+  sput_fail_unless(buttons.GetB3()->isPress(), "Button 3 click");
 }
 
 int run_tests()

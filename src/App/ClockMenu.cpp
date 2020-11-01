@@ -1,5 +1,6 @@
 #include "App/ClockMenu.h"
 #include "Arduino.h"
+#include "App/ApplicationManager.h"
 
 void ClockMenu::OnStart()
 {
@@ -15,7 +16,7 @@ void ClockMenu::OnKeyDown(BUT key)
   switch (key)
   {
   case UP:
-    menu = Apps::MainMenu;
+    applicationManager.SetMenu(Apps::MainMenu);
     break;
   case MIDLE:
     display.clearDisplay();
@@ -25,9 +26,9 @@ void ClockMenu::OnKeyDown(BUT key)
     break;
   case DOWN:
     if (basicMenu->GetPoint() == 0)
-      menu = Apps::TimeSetting;
+      applicationManager.SetMenu(Apps::TimeSetting);
     else if (basicMenu->GetPoint() == 1)
-      menu = Apps::StopWatch;
+      applicationManager.SetMenu(Apps::StopWatch);
     break;
   }
 }

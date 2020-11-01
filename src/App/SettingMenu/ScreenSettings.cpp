@@ -1,5 +1,6 @@
 #include "App/SettingMenu/ScreenSettings.h"
 #include "Global.h"
+#include "App/ApplicationManager.h"
 
 void ScreenSettings::OnStart()
 {
@@ -15,7 +16,7 @@ void ScreenSettings::OnKeyDown(BUT key)
   switch (key)
   {
   case UP:
-    menu = Apps::MainMenu;
+    applicationManager.SetMenu(Apps::MainMenu);
     break;
   case MIDLE:
     selectionMenu->Next();

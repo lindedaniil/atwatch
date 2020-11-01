@@ -2,6 +2,7 @@
 #define GLOBAL_H
 
 #include "Config.h"
+#include "Buttons.h"
 #ifdef SH1106
 extern Adafruit_SH1106 display;
 #else
@@ -10,13 +11,10 @@ extern Adafruit_SSD1306 display;
 extern DS1337 RTC;
 extern MAX17043 batteryMonitor;
 extern MAX30105 particleSensor;
-extern byte menu;
-extern unsigned long CurTime;
+//extern byte menu;
 extern Adafruit_LIS3DH lis;
 extern Adafruit_BMP280 bmp;
 extern RF24 radio;
-extern GButton butt1;
-extern GButton butt2;
-extern GButton butt3;
+extern Buttons buttons;
 
 #endif

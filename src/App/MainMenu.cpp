@@ -1,6 +1,7 @@
 #include "App/MainMenu.h"
 #include "Arduino.h"
 #include "Images.h"
+#include "App/ApplicationManager.h"
 
 void MainMenu::OnStart() {}
 void MainMenu::OnExit() {}
@@ -29,8 +30,8 @@ void MainMenu::OnKeyDown(BUT keyNum)
   switch (keyNum)
   {
     case DOWN:
-      if (point == 0)     menu = Apps::ClockMenu;
-      else if(point == 1) menu = Apps::SettingMenu;
+      if (point == 0)     applicationManager.SetMenu(Apps::ClockMenu);
+      else if(point == 1) applicationManager.SetMenu(Apps::SettingMenu);
       break;
     case MIDLE:
       if (point != 3)
@@ -43,7 +44,7 @@ void MainMenu::OnKeyDown(BUT keyNum)
       }
       break;
     case UP:
-      menu = Apps::MainClock;
+      applicationManager.SetMenu(Apps::MainClock);
       break;
   }
 }
