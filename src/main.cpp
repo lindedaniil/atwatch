@@ -1,7 +1,6 @@
 #include <Wire.h>
 #include "PinsConfig.h"
 #include <Adafruit_LIS3DH.h>
-//#include "config.h"
 #include "Images.h"
 #include "Global.h"
 #include "Buttons.h"
@@ -11,19 +10,7 @@
 #include "LowPower.h"
 #include "GyverButton.h"
 #include "RF24.h"
-/*Apps*/
 #include "App/ApplicationManager.h"
-#include "App/Application.h"
-#include "App/MainClock.h"
-#include "App/MainMenu.h"
-#include "App/TimeSetting.h"
-#include "App/ClockMenu.h"
-#include "App/StopWatch.h"
-#include "App/SettingMenu.h"
-/*Apps/SettinMenu*/
-#include "App/SettingMenu/SoundSettings.h"
-#include "App/SettingMenu/ScreenSettings.h"
-/*Test*/
 #include "Tests/tests.h"
 
 /*Create Objects*/

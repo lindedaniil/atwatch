@@ -42,3 +42,17 @@ void ApplicationManager::UpdateTime(unsigned long time)
 {
   curTime = millis() + time;
 }
+
+Application** ApplicationManager::GetAllApps()
+{
+  return allApp;
+}
+Application* ApplicationManager::GetApp(byte menu)
+{
+  return allApp[menu];
+}
+
+byte ApplicationManager::GetCurAppID()
+{
+  return menu;
+}

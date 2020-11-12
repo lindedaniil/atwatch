@@ -21,7 +21,9 @@ public:
   bool IsActive();
   void UpdateTime();
   void UpdateTime(unsigned long time);
-
+  Application** GetAllApps();
+  Application* GetApp(byte menu);
+  byte GetCurAppID();
 private:
   MainClock mainClock;
   MainMenu mainMenu;
